@@ -25,8 +25,10 @@ var loopDispatcher = function(timestamp) {
     var todos = timestamps.filter(function(ts) { return ts < timestamp });
     timestamps = timestamps.filter(function(ts) { return ts > timestamp });
     todos.forEach(function(ts) {
-      registry[ts + "ms"].forEach(function(cb) { cb() });
-      delete registry[ts + "ms"];
+      if (registry[ts + "ms"]) {
+        registry[ts + "ms"].forEach(function(cb) { cb() });
+        delete registry[ts + "ms"];
+      }
     });
   }
 
